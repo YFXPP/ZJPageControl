@@ -15,7 +15,15 @@ Just add the `ZJPageControl` folder to your project
 use [CocoaPods](https://cocoapods.org/) with Podfile:
 
 ```
-pod 'ZJPageControl', '~> 1.0'
+pod 'ZJPageControl'
+```
+
+#### Carthage
+
+Use [Carthage](https://github.com/Carthage/Carthage) with Cartfile
+
+```
+github "evanzhou0319/ZJPageControl"
 ```
 
 ## Usage
