@@ -12,7 +12,7 @@ Just add the `ZJPageControl` folder to your project
 
 #### CocoaPods
 
-use [CocoaPods](https://cocoapods.org/) with Podfile:
+Use [CocoaPods](https://cocoapods.org/) with Podfile:
 
 ```
 pod 'ZJPageControl'
