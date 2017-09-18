@@ -1,6 +1,6 @@
 # ZJPageControl
 
-![demo.gif](https://github.com/EvanZhou0319/ZJPageControl/blob/master/Example/demo.gif)
+![demo.gif](https://github.com/EvanZhou0319/ZJPageControl/blob/master/Example/demo.gif =200x150)
 
 ZJPageControl is a custom animated page control to replace UIPageControl, inspired by [Tamino Martinius](https://dribbble.com/shots/2658222-Onboarding-Nav-Line-Animation).
 
