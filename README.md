@@ -1,6 +1,6 @@
 # ZJPageControl
 
-![demo.gif](https://github.com/EvanZhou0319/ZJPageControl/blob/master/Example/demo.gif)
+![demo.gif](https://github.com/betacats/ZJPageControl/blob/master/Example/demo.gif)
 
 ZJPageControl is a custom animated page control to replace UIPageControl, inspired by [Tamino Martinius](https://dribbble.com/shots/2658222-Onboarding-Nav-Line-Animation).
 
@@ -23,7 +23,7 @@ pod 'ZJPageControl'
 Use [Carthage](https://github.com/Carthage/Carthage) with Cartfile
 
 ```
-github "evanzhou0319/ZJPageControl"
+github "betacats/ZJPageControl"
 ```
 
 ## Usage
@@ -32,7 +32,7 @@ github "evanzhou0319/ZJPageControl"
 
 Just drop UIView and set it's class to be ZJPageControl. 
 
-![ibdesignable.gif](https://github.com/EvanZhou0319/ZJPageControl/blob/master/Example/ibdesignable.gif)
+![ibdesignable.gif](https://github.com/betacats/ZJPageControl/blob/master/Example/ibdesignable.gif)
 
 #### Code
 
