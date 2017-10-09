@@ -14,6 +14,7 @@ IB_DESIGNABLE
 @property (nonatomic, assign) IBInspectable CGFloat lineWidth;
 @property (nonatomic, assign) IBInspectable CGFloat radius;
 @property (nonatomic, assign) IBInspectable CGFloat padding;
+@property (nonatomic, assign) IBInspectable CGFloat margin;
 
 @property(nonatomic, assign) IBInspectable NSInteger numberOfPages;
 @property(nonatomic, assign) IBInspectable NSInteger currentPage;

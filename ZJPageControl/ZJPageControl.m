@@ -11,6 +11,7 @@
 static const CGFloat kZJPageControlDefaultLineWidth = 2.0f;
 static const CGFloat kZJPageControlDefaultRadius = 10.0f;
 static const CGFloat kZJPageControlDefaultPadding = 20.0f;
+static const CGFloat kZJPageControlDefaultMargin = 20.0f;
 static const CGFloat kZJPageControlDefaultAnimationDuration = 0.3f;
 
 #define kZJPageControlDefaultPageIndicatorTintColor [UIColor colorWithWhite:1 alpha:0.6]
@@ -43,6 +44,7 @@ static const CGFloat kZJPageControlDefaultAnimationDuration = 0.3f;
     _lineWidth = kZJPageControlDefaultLineWidth;
     _radius = kZJPageControlDefaultRadius;
     _padding = kZJPageControlDefaultPadding;
+    _margin = kZJPageControlDefaultMargin;
     
     _lastPage = 0;
     _numberOfPages = 0;
@@ -64,11 +66,10 @@ static const CGFloat kZJPageControlDefaultAnimationDuration = 0.3f;
     
     CGContextRef context = UIGraphicsGetCurrentContext();
     for (int i = 0; i < self.numberOfPages; i++) {
-        int minX = (CGRectGetWidth(self.frame) - [self _totalPageIndicatorWidth]) / 2 + (self.radius * 2 + self.padding) * i;
-        
+        CGPoint circleCenter = [self _centerOfCircleAtPage:i];
         CGContextSetStrokeColorWithColor(context, self.pageIndicatorTintColor.CGColor);
         CGContextSetLineWidth(context, self.lineWidth);
-        CGContextAddArc(context, minX + self.radius, CGRectGetHeight(self.frame) / 2, self.radius, 0, M_PI * 2, 0);
+        CGContextAddArc(context, circleCenter.x, circleCenter.y, self.radius, 0, M_PI * 2, 0);
         CGContextDrawPath(context, kCGPathStroke);
     }
     
@@ -116,14 +117,15 @@ static const CGFloat kZJPageControlDefaultAnimationDuration = 0.3f;
         CGFloat linePathLength = (self.radius * 2 + self.padding) * pageNumber;
         
         CGFloat circlePathLength = M_PI * 2 * self.radius;
-        CGFloat totalPathLegnth = circlePathLength * 2 + linePathLength;
+        CGFloat totalPathLength = circlePathLength * 2 + linePathLength;
+        CGFloat strokeEnd = circlePathLength / totalPathLength;
         
         CABasicAnimation *strokeStartAnimation = [CABasicAnimation animationWithKeyPath:@"strokeStart"];
         strokeStartAnimation.fromValue = @(0);
-        strokeStartAnimation.toValue = @(1 - circlePathLength / totalPathLegnth);
+        strokeStartAnimation.toValue = @(1 - strokeEnd);
         
         CABasicAnimation *strokeEndAnimation = [CABasicAnimation animationWithKeyPath:@"strokeEnd"];
-        strokeEndAnimation.fromValue = @(circlePathLength / totalPathLegnth);
+        strokeEndAnimation.fromValue = @(strokeEnd);
         strokeEndAnimation.toValue = @(1);
         
         CAAnimationGroup *animationGroup = [CAAnimationGroup animation];
@@ -168,7 +170,15 @@ static const CGFloat kZJPageControlDefaultAnimationDuration = 0.3f;
 }
 
 - (CGPoint)_centerOfCircleAtPage:(NSInteger)page {
-    CGFloat midX = (CGRectGetWidth(self.frame) - [self _totalPageIndicatorWidth]) / 2 + (self.radius * 2 + self.padding) * page + self.radius;
+    CGFloat minX;
+    if (self.contentMode == UIViewContentModeLeft) {
+        minX = self.margin;
+    } else if (self.contentMode == UIViewContentModeRight) {
+        minX = self.frame.size.width - [self _totalPageIndicatorWidth] - self.margin;
+    } else {
+        minX = (CGRectGetWidth(self.frame) - [self _totalPageIndicatorWidth]) / 2;
+    }
+    CGFloat midX = minX + (self.radius * 2 + self.padding) * page + self.radius;
     CGPoint center = CGPointMake(midX, CGRectGetHeight(self.frame) / 2);
     return center;
 }
@@ -214,6 +224,13 @@ static const CGFloat kZJPageControlDefaultAnimationDuration = 0.3f;
 
 - (void)setPadding:(CGFloat)padding {
     _padding = padding;
+    if (self.contentMode == UIViewContentModeLeft || self.contentMode == UIViewContentModeRight) {
+        [self setNeedsDisplay];
+    }
+}
+
+- (void)setMargin:(CGFloat)margin {
+    _margin = margin;
     [self setNeedsDisplay];
 }
 
@@ -242,6 +259,11 @@ static const CGFloat kZJPageControlDefaultAnimationDuration = 0.3f;
 
 - (void)setHidesForSinglePage:(BOOL)hidesForSinglePage {
     _hidesForSinglePage = hidesForSinglePage;
+    [self setNeedsDisplay];
+}
+
+- (void)setContentMode:(UIViewContentMode)contentMode {
+    [super setContentMode:contentMode];
     [self setNeedsDisplay];
 }
 
